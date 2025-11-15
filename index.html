@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #btnhitung { background-color: #4CAF50; color: white; }
+        #btnreset { background-color: #f39c12; color: white; }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>BMI Calculator</h2>
+        <label for="txtnama">Nama:</label>
+        <input type="text" id="txtnama" placeholder="Masukkan nama">
+
+        <label for="txtusia">Usia:</label>
+        <input type="text" id="txtusia" placeholder="Masukkan usia">
+
+        <label for="txtjk">Jenis Kelamin:</label>
+        <select id="txtjk">
+            <option value="">-- Pilih Jenis Kelamin --</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+        </select>
+
+        <label for="txttb">Tinggi (cm):</label>
+        <input type="text" id="txttb" placeholder="Masukkan tinggi">
+
+        <label for="txtbb">Berat (kg):</label>
+        <input type="text" id="txtbb" placeholder="Masukkan berat">
+
+        <div class="buttons">
+            <button type="button" id="btnhitung">Cek BMI</button>
+            <button type="button" id="btnreset">Reset</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // PASTI JALAN: gunakan window.onload supaya tombol bisa diklik
+        window.onload = function() {
+            const btnH = document.getElementById("btnhitung");
+            const btnR = document.getElementById("btnreset");
+            const result = document.getElementById("result");
+
+            btnH.addEventListener("click", function() {
+                const nama = document.getElementById("txtnama").value.trim();
+                const usia = document.getElementById("txtusia").value.trim();
+                const jk = document.getElementById("txtjk").value;
+                const tinggi = parseFloat(document.getElementById("txttb").value);
+                const berat = parseFloat(document.getElementById("txtbb").value);
+
+                if(!nama || !usia || !jk || isNaN(tinggi) || isNaN(berat)) {
+                    result.textContent = "Mohon isi semua data dengan benar!";
+                    result.style.color = "red";
+                    return;
+                }
+
+                const bmi = berat / ((tinggi/100) ** 2);
+                let ket = "";
+
+                if(bmi < 18.5) ket = "Underweight, perlu menaikkan berat badan.";
+                else if(bmi < 25) ket = "Normal/Ideal";
+                else ket = "Overweight, perlu menurunkan berat badan.";
+
+                result.style.color = "black";
+                result.innerHTML = Halo ${nama} (${jk}, ${usia} tahun)<br>BMI Anda: ${bmi.toFixed(2)}<br>${ket};
+            });
+
+            btnR.addEventListener("click", function() {
+                document.getElementById("txtnama").value = "";
+                document.getElementById("txtusia").value = "";
+                document.getElementById("txtjk").value = "";
+                document.getElementById("txttb").value = "";
+                document.getElementById("txtbb").value = "";
+                result.textContent = "";
+            });
+        };
+    </script>
+</body>
+</html>
